@@ -25,9 +25,19 @@
             <div class="action-buttons">
                 <button id="toggleDescriptionBtn" class="toggle-btn">Add Description</button>
                 <button id="addBtn" class="add-btn">Add Task</button>
+                <button id="generateSummaryBtn" class="summary-btn">🤖 AI Summary</button>
             </div>
 
             <p class="helper-text">Keep planning!</p>
+
+            <!-- AI Summary Section -->
+            <div id="summarySection" class="summary-section" style="display: none;">
+                <h3>📋 Your Daily Plan</h3>
+                <div id="summaryContent" class="summary-content">
+                    <div class="loading">Generating your personalized summary...</div>
+                </div>
+                <button id="closeSummaryBtn" class="close-summary-btn">Close</button>
+            </div>
 
             <ul id="todoList" class="list-on-dark"></ul>
         </div>

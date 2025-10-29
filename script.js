@@ -12,6 +12,10 @@ class TodoApp {
         this.saveDescriptionBtn = document.getElementById('saveDescriptionBtn');
         this.cancelEditBtn = document.getElementById('cancelEditBtn');
         this.currentEditingId = null;
+        this.generateSummaryBtn = document.getElementById('generateSummaryBtn');
+        this.summarySection = document.getElementById('summarySection');
+        this.summaryContent = document.getElementById('summaryContent');
+        this.closeSummaryBtn = document.getElementById('closeSummaryBtn');
         
         this.init();
     }
@@ -29,6 +33,9 @@ class TodoApp {
         this.editModal.addEventListener('click', (e) => {
             if (e.target === this.editModal) this.closeEditModal();
         });
+        
+        this.generateSummaryBtn.addEventListener('click', () => this.generateSummary());
+        this.closeSummaryBtn.addEventListener('click', () => this.closeSummary());
         
         this.render();
     }
@@ -109,6 +116,81 @@ class TodoApp {
         this.editModal.style.display = 'none';
         this.currentEditingId = null;
         this.editDescriptionInput.value = '';
+    }
+    
+    async generateSummary() {
+        if (this.todos.length === 0) {
+            alert('Add some tasks first to generate a summary!');
+            return;
+        }
+        
+        this.summarySection.style.display = 'block';
+        this.summaryContent.innerHTML = '<div class="loading">Generating your personalized summary...</div>';
+        
+        try {
+            const summary = await this.callGeminiAPI();
+            this.summaryContent.innerHTML = summary;
+        } catch (error) {
+            console.error('Error generating summary:', error);
+            this.summaryContent.innerHTML = `
+                <div style="color: #ff6b6b;">
+                    <strong>Error:</strong> Could not generate summary. Please check your API key and try again.
+                    <br><br>
+                    <small>Make sure you've added your Gemini API key to the code.</small>
+                </div>
+            `;
+        }
+    }
+    
+    closeSummary() {
+        this.summarySection.style.display = 'none';
+    }
+    
+    async callGeminiAPI() {
+        // TODO: Replace with your actual Gemini API key
+        const API_KEY = 'YOUR_GEMINI_API_KEY_HERE';
+        
+        if (API_KEY === 'YOUR_GEMINI_API_KEY_HERE') {
+            throw new Error('Please add your Gemini API key to the code');
+        }
+        
+        const todos = this.todos.map(todo => {
+            const status = todo.completed ? '✅ Completed' : '⏳ Pending';
+            const description = todo.description ? ` (${todo.description})` : '';
+            return `${status}: ${todo.text}${description}`;
+        }).join('\n');
+        
+        const prompt = `Please create a motivational daily summary for these tasks. Make it encouraging and help prioritize what to focus on today. Keep it concise but inspiring:
+
+${todos}
+
+Format the response as a friendly daily plan with:
+1. A brief motivational opening
+2. Priority tasks to focus on
+3. A positive closing note
+
+Keep it under 200 words and make it feel personal and encouraging.`;
+
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [{
+                        text: prompt
+                    }]
+                }]
+            })
+        });
+        
+        if (!response.ok) {
+            throw new Error(`API request failed: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        return data.candidates[0].content.parts[0].text;
     }
     
     save() {
