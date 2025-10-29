@@ -113,24 +113,8 @@ body {
 
 /* BIG SEARCH ROW (reuses existing input/button IDs) */
 .search-row {
-    display: grid;
-    grid-template-columns: 48px 1fr;
-    align-items: center;
-    gap: 10px;
     margin-top: 40px;
     width: min(980px, 100%);
-}
-
-.search-icon {
-    width: 48px;
-    height: 56px;
-    display: grid;
-    place-items: center;
-    color: #d0d8e2;
-    background: var(--field);
-    border: 1px solid var(--field-border);
-    border-radius: 14px;
-    backdrop-filter: blur(8px);
 }
 
 #todoInput {
