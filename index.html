@@ -28,9 +28,21 @@
                 <button id="addBtn" class="add-btn">Add Task</button>
             </div>
 
-            <p class="helper-text">Enjoy your course registration experience!</p>
+            <p class="helper-text">Keep planning!</p>
 
             <ul id="todoList" class="list-on-dark"></ul>
+        </div>
+
+        <!-- Edit Description Modal -->
+        <div id="editModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <h3>Edit Description</h3>
+                <textarea id="editDescriptionInput" placeholder="Add or edit description..."></textarea>
+                <div class="modal-buttons">
+                    <button id="saveDescriptionBtn" class="save-btn">Save</button>
+                    <button id="cancelEditBtn" class="cancel-btn">Cancel</button>
+                </div>
+            </div>
         </div>
 
         <footer class="dark-footer">

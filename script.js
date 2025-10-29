@@ -7,6 +7,11 @@ class TodoApp {
         this.descriptionSection = document.getElementById('descriptionSection');
         this.descriptionInput = document.getElementById('descriptionInput');
         this.toggleDescriptionBtn = document.getElementById('toggleDescriptionBtn');
+        this.editModal = document.getElementById('editModal');
+        this.editDescriptionInput = document.getElementById('editDescriptionInput');
+        this.saveDescriptionBtn = document.getElementById('saveDescriptionBtn');
+        this.cancelEditBtn = document.getElementById('cancelEditBtn');
+        this.currentEditingId = null;
         
         this.init();
     }
@@ -17,6 +22,13 @@ class TodoApp {
             if (e.key === 'Enter') this.addTodo();
         });
         this.toggleDescriptionBtn.addEventListener('click', () => this.toggleDescription());
+        this.saveDescriptionBtn.addEventListener('click', () => this.saveDescription());
+        this.cancelEditBtn.addEventListener('click', () => this.closeEditModal());
+        
+        // Close modal when clicking outside
+        this.editModal.addEventListener('click', (e) => {
+            if (e.target === this.editModal) this.closeEditModal();
+        });
         
         this.render();
     }
@@ -71,6 +83,34 @@ class TodoApp {
         }
     }
     
+    editDescription(id) {
+        const todo = this.todos.find(t => t.id === id);
+        if (todo) {
+            this.currentEditingId = id;
+            this.editDescriptionInput.value = todo.description || '';
+            this.editModal.style.display = 'flex';
+            this.editDescriptionInput.focus();
+        }
+    }
+    
+    saveDescription() {
+        if (this.currentEditingId !== null) {
+            const todo = this.todos.find(t => t.id === this.currentEditingId);
+            if (todo) {
+                todo.description = this.editDescriptionInput.value.trim();
+                this.save();
+                this.render();
+            }
+            this.closeEditModal();
+        }
+    }
+    
+    closeEditModal() {
+        this.editModal.style.display = 'none';
+        this.currentEditingId = null;
+        this.editDescriptionInput.value = '';
+    }
+    
     save() {
         localStorage.setItem('todos', JSON.stringify(this.todos));
     }
@@ -87,9 +127,14 @@ class TodoApp {
                     <span class="todo-text" onclick="app.toggleTodo(${todo.id})">
                         ${this.escapeHtml(todo.text)}
                     </span>
-                    <button class="delete-btn" onclick="app.deleteTodo(${todo.id})">
-                        Delete
-                    </button>
+                    <div class="todo-actions">
+                        <button class="edit-description-btn" onclick="app.editDescription(${todo.id})">
+                            ${todo.description ? 'Edit Desc' : 'Add Desc'}
+                        </button>
+                        <button class="delete-btn" onclick="app.deleteTodo(${todo.id})">
+                            Delete
+                        </button>
+                    </div>
                 </div>
                 ${todo.description ? `<div class="todo-description">${this.escapeHtml(todo.description)}</div>` : ''}
             </li>
