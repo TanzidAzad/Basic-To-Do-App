@@ -56,15 +56,6 @@ class TodoApp {
         this.render();
     }
     
-    toggleTodo(id) {
-        const todo = this.todos.find(t => t.id === id);
-        if (todo) {
-            todo.completed = !todo.completed;
-            this.save();
-            this.render();
-        }
-    }
-    
     deleteTodo(id) {
         this.todos = this.todos.filter(t => t.id !== id);
         this.save();
@@ -90,6 +81,15 @@ class TodoApp {
             this.editDescriptionInput.value = todo.description || '';
             this.editModal.style.display = 'flex';
             this.editDescriptionInput.focus();
+        }
+    }
+    
+    toggleTodo(id) {
+        const todo = this.todos.find(t => t.id === id);
+        if (todo) {
+            todo.completed = !todo.completed;
+            this.save();
+            this.render();
         }
     }
     
@@ -124,17 +124,12 @@ class TodoApp {
         this.todoList.innerHTML = this.todos.map(todo => `
             <li class="todo-item ${todo.completed ? 'completed' : ''}">
                 <div class="todo-content">
-                    <span class="todo-text" onclick="app.toggleTodo(${todo.id})">
+                    <span class="todo-text" onclick="app.editDescription(${todo.id})">
                         ${this.escapeHtml(todo.text)}
                     </span>
-                    <div class="todo-actions">
-                        <button class="edit-description-btn" onclick="app.editDescription(${todo.id})">
-                            ${todo.description ? 'Edit Desc' : 'Add Desc'}
-                        </button>
-                        <button class="delete-btn" onclick="app.deleteTodo(${todo.id})">
-                            Delete
-                        </button>
-                    </div>
+                    <button class="delete-btn" onclick="app.deleteTodo(${todo.id})">
+                        Delete
+                    </button>
                 </div>
                 ${todo.description ? `<div class="todo-description">${this.escapeHtml(todo.description)}</div>` : ''}
             </li>
