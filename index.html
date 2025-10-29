@@ -7,14 +7,46 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>My To-Do List</h1>
-        <div class="input-section">
-            <input type="text" id="todoInput" placeholder="Add a new task...">
-            <button id="addBtn">Add Task</button>
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="brand">
+                <span class="brand-dot"></span>
+                <span class="brand-text">Mavgrades To‑Do</span>
+            </div>
+            <nav class="nav">
+                <a class="nav-link" href="#">Product</a>
+                <a class="nav-link" href="#">Pricing</a>
+                <a class="nav-link" href="#">Docs</a>
+            </nav>
         </div>
-        <ul id="todoList"></ul>
-    </div>
+    </header>
+
+    <main class="page">
+        <section class="hero">
+            <h1 class="hero-title">Stay organized. Get more done.</h1>
+            <p class="hero-subtitle">A clean, minimal task manager with a distraction‑free interface.</p>
+        </section>
+
+        <section class="app-card">
+            <div class="input-section">
+                <input type="text" id="todoInput" placeholder="Add a new task...">
+                <button id="addBtn">Add Task</button>
+            </div>
+            <ul id="todoList"></ul>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span>© <span id="year"></span> Mavgrades To‑Do</span>
+            <a class="footer-link" href="https://github.com/TanzidAzad/Basic-To-Do-App" target="_blank" rel="noopener">GitHub</a>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
     <script src="script.js"></script>
+
 </body>
 </html>
