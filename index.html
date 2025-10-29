@@ -7,46 +7,33 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="site-header">
-        <div class="header-inner">
-            <div class="brand">
-                <span class="brand-dot"></span>
-                <span class="brand-text">Mavgrades To‑Do</span>
+    <main class="hero-dark">
+        <div class="hero-content">
+            <h1 class="brand-hero">
+                <span class="brand-strong">MAV</span><span class="brand-light">GRADES</span>
+            </h1>
+            <p class="hero-tagline">Learn from your previous peers. See how they did! It's free and accessible for all UTA students.</p>
+
+            <div class="search-row">
+                <span class="search-icon" aria-hidden="true">🔍</span>
+                <input type="text" id="todoInput" placeholder="Search or add a task (press Enter)">
+                <button id="addBtn" aria-label="Add task">Add</button>
             </div>
-            <nav class="nav">
-                <a class="nav-link" href="#">Product</a>
-                <a class="nav-link" href="#">Pricing</a>
-                <a class="nav-link" href="#">Docs</a>
-            </nav>
+
+            <p class="helper-text">Enjoy your course registration experience!</p>
+
+            <ul id="todoList" class="list-on-dark"></ul>
         </div>
-    </header>
 
-    <main class="page">
-        <section class="hero">
-            <h1 class="hero-title">Stay organized. Get more done.</h1>
-            <p class="hero-subtitle">A clean, minimal task manager with a distraction‑free interface.</p>
-        </section>
-
-        <section class="app-card">
-            <div class="input-section">
-                <input type="text" id="todoInput" placeholder="Add a new task...">
-                <button id="addBtn">Add Task</button>
-            </div>
-            <ul id="todoList"></ul>
-        </section>
+        <footer class="dark-footer">
+            <p>Developed by ACM @ UTA. Not affiliated with or sponsored by UT Arlington.</p>
+            <p>© <span id="year"></span> ACM @ UT Arlington. All rights reserved.</p>
+        </footer>
     </main>
-
-    <footer class="site-footer">
-        <div class="footer-inner">
-            <span>© <span id="year"></span> Mavgrades To‑Do</span>
-            <a class="footer-link" href="https://github.com/TanzidAzad/Basic-To-Do-App" target="_blank" rel="noopener">GitHub</a>
-        </div>
-    </footer>
 
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
     </script>
     <script src="script.js"></script>
-
 </body>
 </html>
