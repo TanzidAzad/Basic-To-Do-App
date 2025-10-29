@@ -10,14 +10,22 @@
     <main class="hero-dark">
         <div class="hero-content">
             <h1 class="brand-hero">
-                <span class="brand-strong">MAV</span><span class="brand-light">GRADES</span>
+                <span class="brand-strong">MAV</span><span class="brand-light">FAKE</span>
             </h1>
-            <p class="hero-tagline">Learn from your previous peers. See how they did! It's free and accessible for all UTA students.</p>
+            <p class="hero-tagline">Plan your day with ease! All at one place.</p>
 
             <div class="search-row">
                 <span class="search-icon" aria-hidden="true">🔍</span>
-                <input type="text" id="todoInput" placeholder="Search or add a task (press Enter)">
-                <button id="addBtn" aria-label="Add task">Add</button>
+                <input type="text" id="todoInput" placeholder="Add a new task (press Enter)">
+            </div>
+
+            <div class="description-section" id="descriptionSection" style="display: none;">
+                <textarea id="descriptionInput" placeholder="Add a description (optional)"></textarea>
+            </div>
+
+            <div class="action-buttons">
+                <button id="toggleDescriptionBtn" class="toggle-btn">Add Description</button>
+                <button id="addBtn" class="add-btn">Add Task</button>
             </div>
 
             <p class="helper-text">Enjoy your course registration experience!</p>

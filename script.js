@@ -4,6 +4,9 @@ class TodoApp {
         this.todoInput = document.getElementById('todoInput');
         this.addBtn = document.getElementById('addBtn');
         this.todoList = document.getElementById('todoList');
+        this.descriptionSection = document.getElementById('descriptionSection');
+        this.descriptionInput = document.getElementById('descriptionInput');
+        this.toggleDescriptionBtn = document.getElementById('toggleDescriptionBtn');
         
         this.init();
     }
@@ -13,6 +16,7 @@ class TodoApp {
         this.todoInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') this.addTodo();
         });
+        this.toggleDescriptionBtn.addEventListener('click', () => this.toggleDescription());
         
         this.render();
     }
@@ -21,15 +25,21 @@ class TodoApp {
         const text = this.todoInput.value.trim();
         if (text === '') return;
         
+        const description = this.descriptionInput.value.trim();
+        
         const todo = {
             id: Date.now(),
             text: text,
+            description: description,
             completed: false,
             createdAt: new Date().toISOString()
         };
         
         this.todos.unshift(todo);
         this.todoInput.value = '';
+        this.descriptionInput.value = '';
+        this.descriptionSection.style.display = 'none';
+        this.toggleDescriptionBtn.textContent = 'Add Description';
         this.save();
         this.render();
     }
@@ -49,6 +59,18 @@ class TodoApp {
         this.render();
     }
     
+    toggleDescription() {
+        const isVisible = this.descriptionSection.style.display !== 'none';
+        if (isVisible) {
+            this.descriptionSection.style.display = 'none';
+            this.toggleDescriptionBtn.textContent = 'Add Description';
+        } else {
+            this.descriptionSection.style.display = 'block';
+            this.toggleDescriptionBtn.textContent = 'Hide Description';
+            this.descriptionInput.focus();
+        }
+    }
+    
     save() {
         localStorage.setItem('todos', JSON.stringify(this.todos));
     }
@@ -61,12 +83,15 @@ class TodoApp {
         
         this.todoList.innerHTML = this.todos.map(todo => `
             <li class="todo-item ${todo.completed ? 'completed' : ''}">
-                <span class="todo-text" onclick="app.toggleTodo(${todo.id})">
-                    ${this.escapeHtml(todo.text)}
-                </span>
-                <button class="delete-btn" onclick="app.deleteTodo(${todo.id})">
-                    Delete
-                </button>
+                <div class="todo-content">
+                    <span class="todo-text" onclick="app.toggleTodo(${todo.id})">
+                        ${this.escapeHtml(todo.text)}
+                    </span>
+                    <button class="delete-btn" onclick="app.deleteTodo(${todo.id})">
+                        Delete
+                    </button>
+                </div>
+                ${todo.description ? `<div class="todo-description">${this.escapeHtml(todo.description)}</div>` : ''}
             </li>
         `).join('');
     }
